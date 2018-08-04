@@ -1,0 +1,14 @@
+.main-div {
+    float: right;
+}
+
+.loggedin-div {
+    clear: both;
+    float: right;
+
+}
+
+input {
+    width: 150px;
+    height: 20px;
+}

@@ -1,4 +1,13 @@
-
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyASPoKmOIoLdfnf3LqzmMcHAhoXZ_FEi_U",
+    authDomain: "my-email-login-project.firebaseapp.com",
+    databaseURL: "https://my-email-login-project.firebaseio.com",
+    projectId: "my-email-login-project",
+    storageBucket: "my-email-login-project.appspot.com",
+    messagingSenderId: "166957584498"
+};
+firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -50,12 +59,12 @@ function signup() {
 
     window.alert(userEmail + " " + userPassword);
 
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
-      });
+    });
 }
 
 
