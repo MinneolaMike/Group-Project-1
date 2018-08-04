@@ -35,10 +35,8 @@
                     <button onclick="login()" class="btn btn-primary">Login</button>
                     <button onclick="signup()" class="btn btn-secondary">Signup</button>
                 </div>
-
             </div>
             <div id="user_div" class="loggedin-div">
-
                 <div class="form-group">
                     <p id="user_para">You're not currently logged in.</p>
                 </div>
@@ -87,10 +85,12 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>McDonald's</td>
+                                        <td id="jobID" class="btn btn-link">
+                                           Dead end job
+                                        </td>
+                                        <td>1968</td>
+                                        <td>Line Cook</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -99,8 +99,7 @@
                 </div>
             </div>
         </div>
-        <!-- Button trigger modal -->
-
+        
 
         <!-- Modal -->
         <div class="modal fade" id="SavedJobs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -136,7 +135,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+
                         </div>
                     </div>
                 </div>

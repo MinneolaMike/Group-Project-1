@@ -81,3 +81,10 @@ function logout() {
 
     firebase.auth().signOut();
 }
+
+
+
+
+$("jobID").click(function() {
+    //data push
+});
