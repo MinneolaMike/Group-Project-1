@@ -1,12 +1,12 @@
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyASPoKmOIoLdfnf3LqzmMcHAhoXZ_FEi_U",
-    authDomain: "my-email-login-project.firebaseapp.com",
-    databaseURL: "https://my-email-login-project.firebaseio.com",
-    projectId: "my-email-login-project",
-    storageBucket: "my-email-login-project.appspot.com",
-    messagingSenderId: "166957584498"
-};
+    apiKey: "AIzaSyCZ6TeAiNkV1QEFtAagMdl7OYFCE_8dNfc",
+    authDomain: "jobmapper-bf9e0.firebaseapp.com",
+    databaseURL: "https://jobmapper-bf9e0.firebaseio.com",
+    projectId: "jobmapper-bf9e0",
+    storageBucket: "jobmapper-bf9e0.appspot.com",
+    messagingSenderId: "673548275473"
+  };
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged(function (user) {
