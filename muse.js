@@ -1,14 +1,12 @@
-  
+// Submit search event
       $("#submit-search").on("click", function(event) {
-
         event.preventDefault();
       
-    
-  
+        // Capture values
         var locationInput = $("#location-input").val().trim();
         var keywordInput = $("#keyword-input").val().trim();
  
-
+        // Set up URL, add authorization token 
              var settings = {
           "async": true,
           "crossDomain": true,
@@ -21,10 +19,9 @@
           }
         }
         
-        
+        // Run ajax request
         $.ajax(settings).done(function (response) {
-            
-
+   
                 console.log(response);
                 console.log("------------------------------------");
         
