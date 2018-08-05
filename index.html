@@ -51,52 +51,49 @@
             <h1 class="display-3">
                 <i class="fas fa-search"></i>JobHunter</h1>
         </div>
-        <div class="container">
+        </div>
+        <div class="container my-1">
 
-            <div class="card">
+            
                 <div class="form-row">
 
 
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Location" id="location-input">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Where are you looking? (city, state, or zip)" id="location-input">
                     </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Job Type" id="keyword-input">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="What kind of job are you looking for?" id="keyword-input">
                     </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" id="submit-search">Block level button</button>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" id="submit-search">Find Jobs!</button>
 
                     </div>
+                    
                 </div>
-                <div class="card">
+                
+                <div class="content-wrapper" style="display:none">
+                <div class="card my-1">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP
                             IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE
                             MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP IM THE MAP
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-hover" id="resultsTable" style="font-size:12px">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>Job Title</th>
                                             <th>Company</th>
-                                            <th>Job ID</th>
-                                            <th>Posted Date</th>
-                                            <th>Description</th>
+                                            <th>Location</th>
+                                            <th>Posted</th>
+                                            <th></th>
+                                            <th></th>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>McDonald's</td>
-                                            <td id="jobID" class="btn btn-link">
-                                                Dead end job
-                                            </td>
-                                            <td>1968</td>
-                                            <td>Line Cook</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -104,7 +101,7 @@
                     </div>
                 </div>
             </div>
-
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="SavedJobs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -162,6 +159,7 @@
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="index.js"></script>
 <script src="muse.js"></script>
 
