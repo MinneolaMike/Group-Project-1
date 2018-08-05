@@ -33,7 +33,25 @@
                     console.log(jobListing.Location);
                     console.log(jobListing.URL);
                     console.log("------------------------------------");
-                }
+
+                  var dateConvert = jobListing.AccquisitionDate.split(" ");
+                  var calendarDate = dateConvert[0];
+                  var daysAgo = moment(calendarDate).fromNow();
+
+                var newRow = $("<tr>").append(
+                  $("<td>").text(jobListing.JobTitle),
+                  $("<td>").text(jobListing.Company),
+                  $("<td>").text(jobListing.Location),
+                  $("<td>").text(daysAgo),
+                  $("<td>").html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>"),
+                  $("<td>").html("<button type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"));
+              
+                
+                $(".content-wrapper").show();
+                $("#resultsTable > tbody").append(newRow);
+                
+                
+                  }
       });
     });
 
