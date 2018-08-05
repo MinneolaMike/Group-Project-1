@@ -12,3 +12,20 @@ input {
     width: 150px;
     height: 20px;
 }
+.card {
+    margin-top: 20px;
+}
+
+.jumbotron {
+    background-image: url("../images/skyline.jpg");
+    background-repeat: no-repeat center center;
+    height: 300px;
+    width: 100%;
+  }
+  .display-3 {
+      margin-top: 80px;
+      color: aliceblue;
+  }
+  #user_para {
+      color: aliceblue;
+  }
