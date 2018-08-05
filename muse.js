@@ -34,13 +34,15 @@
                     console.log(jobListing.URL);
                     console.log("------------------------------------");
 
+                  var dateConvert = jobListing.AccquisitionDate.split(" ");
+                  var calendarDate = dateConvert[0];
+                  var daysAgo = moment(calendarDate).fromNow();
 
-                    
                 var newRow = $("<tr>").append(
                   $("<td>").text(jobListing.JobTitle),
                   $("<td>").text(jobListing.Company),      
                   $("<td>").text(jobListing.Location),
-                  $("<td>").text(jobListing.AccquisitionDate),
+                  $("<td>").text(daysAgo),
                   $("<td>").html("<a href='" + jobListing.URL + "' target='_blank'> Visit Posting</a>")
 
                 
