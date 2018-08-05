@@ -40,13 +40,13 @@
 
                 var newRow = $("<tr>").append(
                   $("<td>").text(jobListing.JobTitle),
-                  $("<td>").text(jobListing.Company),      
+                  $("<td>").text(jobListing.Company),
                   $("<td>").text(jobListing.Location),
                   $("<td>").text(daysAgo),
-                  $("<td>").html("<a href='" + jobListing.URL + "' target='_blank'> Visit Posting</a>")
-
+                  $("<td>").html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>"),
+                  $("<td>").html("<button type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"));
+              
                 
-                );
                 $(".content-wrapper").show();
                 $("#resultsTable > tbody").append(newRow);
                 
