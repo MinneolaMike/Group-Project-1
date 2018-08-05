@@ -33,7 +33,23 @@
                     console.log(jobListing.Location);
                     console.log(jobListing.URL);
                     console.log("------------------------------------");
-                }
+
+
+                    
+                var newRow = $("<tr>").append(
+                  $("<td>").text(jobListing.JobTitle),
+                  $("<td>").text(jobListing.Company),      
+                  $("<td>").text(jobListing.Location),
+                  $("<td>").text(jobListing.AccquisitionDate),
+                  $("<td>").html("<a href='" + jobListing.URL + "' target='_blank'> Visit Posting</a>")
+
+                
+                );
+                $(".content-wrapper").show();
+                $("#resultsTable > tbody").append(newRow);
+                
+                
+                  }
       });
     });
 
