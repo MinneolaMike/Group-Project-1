@@ -1,7 +1,6 @@
 // Submit search event
       $("#submit-search").on("click", function(event) {
-        event.preventDefault();
-      
+        //event.preventDefault();
         // Capture values
         var locationInput = $("#location-input").val().trim();
         var keywordInput = $("#keyword-input").val().trim();
@@ -54,4 +53,5 @@
                   }
       });
     });
+  
 
