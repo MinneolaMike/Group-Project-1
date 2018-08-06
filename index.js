@@ -140,3 +140,10 @@ $(document).on("click", "#save-jobs", function (event) {
     successMessage();
 
 });
+
+
+//enable the search button if keyword-input and location-input have been filled
+$("form").on('submit', function(e) {
+    e.preventDefault();
+    
+});
