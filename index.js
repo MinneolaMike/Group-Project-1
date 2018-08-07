@@ -9,18 +9,22 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
+// Get a reference to the database service
 var database = firebase.database();
 
 //store user login information
 var user = firebase.auth().currentUser;
+//store user login information
+console.log(user);
 
+// initalize global varables
 var email_id = "";
+var user_uid = "";
 
 // Hide success message
 $('#success').hide();
 
-console.log(user);
+
 //This function displays success message after data is added to database
 function successMessage() {
     $('#success').slideDown(1000);
@@ -50,6 +54,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         if (user != null) {
             email_id = user.email;
+            user_uid = user.uid;
             document.getElementById("user_para").innerHTML = "Welcome: " + email_id;
         }
     } else {
@@ -66,10 +71,8 @@ function login() {
     var userEmail = document.getElementById("userEmail").value;
     var userPassword = document.getElementById("userPassword").value;
 
-    window.alert(userEmail + " " + userPassword);
-
     firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).then(function () {
-        
+
         // Sign-in successful.
         // window.alert("Sign-in successful.");
 
@@ -91,8 +94,8 @@ function signup() {
 
     // window.alert(userEmail + " " + userPassword);
 
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function (user){
-       
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function (user) {
+
 
     }).catch(function (error) {
         // Handle Errors here.
@@ -100,8 +103,8 @@ function signup() {
         var errorMessage = error.message;
 
         //create a user node in real-time database
-        
-        
+
+
         // ...
     });
 }
@@ -109,7 +112,7 @@ function signup() {
 // login out fireBase database
 function logout() {
     // alert("log out");
-    
+
     // sign out of firebase database
     firebase.auth().signOut();
 
@@ -118,6 +121,7 @@ function logout() {
 
     // clear current email-id
     email_id = "";
+    user_uid = "";
 }
 
 // Add event listner for when user clicks the save button
@@ -149,19 +153,19 @@ $(document).on("click", "#save-jobs", function (event) {
     // console.log(newJob);
     // console.log("here in doc click");
     // console.log(jobid);
-    
 
-    firebase.auth().onAuthStateChanged(function(user) {
+
+    firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
-          database.ref("users").child(user.uid).child(jobid).update(newJob);
-          
-          // ...
+            // User is signed in.
+            database.ref("users").child(user.uid).child(jobid).update(newJob);
+
+            // ...
         } else {
-          // User is signed out.
-          // ...
+            // User is signed out.
+            // ...
         }
-      });
+    });
 
 
     // alert("Add to database successfull");
@@ -171,17 +175,36 @@ $(document).on("click", "#save-jobs", function (event) {
 
 
 //enable the search button if keyword-input and location-input have been filled
-$("form").on('submit', function(e) {
+$("form").on('submit', function (e) {
     e.preventDefault();
-    
+
 });
 
 //Call for the saved jobs by checking the users UID directory
-$("#callList").click(function() {
-//console.log("this function works");
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.uid);
+$("#callList").click(function () {
+    
+    // Empty search results this will prevent duplication of searches
+    $("#savedJobs").empty();
+    database.ref('/users/' + user_uid).once('value').then(function (snapshot) {
+
+        console.log(snapshot.val());
+        snapshot.forEach(childSnapshot => {
+       
+            // load search results to html with the save button if user not logged in
+            var newRow = $("#savedJobs")
+                    .append($('<tr>')
+                    .append($('<td>').append(childSnapshot.val().jobTitle))
+                    .append($('<td>').append(childSnapshot.val().jobCompany))
+                    .append($('<td>').append(childSnapshot.val().jobLocation))
+                    .append($('<td>').append(childSnapshot.val().jobPostdate))
+                    .append($('<td>').html("<a href='" + childSnapshot.val().jobUrl + "' target='_blank'> Apply</a>").attr("data-url", childSnapshot.val().jobUrl))
+                );
+        });
+
+    });
 
 });
-});
+
+
+
 
