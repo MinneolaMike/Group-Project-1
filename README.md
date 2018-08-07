@@ -16,8 +16,11 @@
 * Google Maps API
 * Career One Stop API
 * Google Places API
+* Google Places Library
 * Visual Studio Code
 * Font Awesome
+* Google Fonts
+* Adobe Photoshop
 
 ## Collaborators
 * https://github.com/mirtacarter
