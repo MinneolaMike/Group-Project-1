@@ -9,6 +9,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
 var database = firebase.database();
 
 //store user login information
@@ -169,5 +170,18 @@ $(document).on("click", "#save-jobs", function (event) {
 });
 
 
+//enable the search button if keyword-input and location-input have been filled
+$("form").on('submit', function(e) {
+    e.preventDefault();
+    
+});
 
+//Call for the saved jobs by checking the users UID directory
+$("#callList").click(function() {
+//console.log("this function works");
+database.ref().on("child_added", function(childSnapshot) {
+    console.log(childSnapshot.uid);
+
+});
+});
 
