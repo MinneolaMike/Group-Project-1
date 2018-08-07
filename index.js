@@ -135,7 +135,7 @@ $(document).on("click", "#save-jobs", function (event) {
     var postDate = $(this).attr("data-postdate").trim();
     var location = $(this).attr("data-location").trim();
     var search = $(this).attr("data-search").trim();
-    var jobid = $(this).attr("data-jobid").trim();
+    var jobid = $(this).attr("data-jobid");
 
 
     // Creates local "temporary" object for holding jobs data
