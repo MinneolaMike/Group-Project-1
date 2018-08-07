@@ -16,11 +16,11 @@ var database = firebase.database();
 var user = firebase.auth().currentUser;
 
 var email_id = "";
-
+var user_uid = "";
 // Hide success message
 $('#success').hide();
 
-console.log(user);
+
 //This function displays success message after data is added to database
 function successMessage() {
     $('#success').slideDown(1000);
@@ -48,9 +48,16 @@ firebase.auth().onAuthStateChanged(function (user) {
         // Store user login information
         var user = firebase.auth().currentUser;
 
+        
         if (user != null) {
             email_id = user.email;
+            user_uid = user.uid;
+            //console.log(user_uid);
             document.getElementById("user_para").innerHTML = "Welcome: " + email_id;
+            database.ref().on("child_added", function (childSnapshot) {
+                console.log(childSnapshot.val());
+        
+            });
         }
     } else {
         // No user is signed in.
@@ -69,7 +76,7 @@ function login() {
     window.alert(userEmail + " " + userPassword);
 
     firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).then(function () {
-        
+
         // Sign-in successful.
         // window.alert("Sign-in successful.");
 
@@ -91,8 +98,8 @@ function signup() {
 
     // window.alert(userEmail + " " + userPassword);
 
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function (user){
-       
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function (user) {
+
 
     }).catch(function (error) {
         // Handle Errors here.
@@ -100,8 +107,8 @@ function signup() {
         var errorMessage = error.message;
 
         //create a user node in real-time database
-        
-        
+
+
         // ...
     });
 }
@@ -109,7 +116,7 @@ function signup() {
 // login out fireBase database
 function logout() {
     // alert("log out");
-    
+
     // sign out of firebase database
     firebase.auth().signOut();
 
@@ -118,6 +125,7 @@ function logout() {
 
     // clear current email-id
     email_id = "";
+    user_id = "";
 }
 
 // Add event listner for when user clicks the save button
@@ -149,19 +157,19 @@ $(document).on("click", "#save-jobs", function (event) {
     // console.log(newJob);
     // console.log("here in doc click");
     // console.log(jobid);
-    
 
-    firebase.auth().onAuthStateChanged(function(user) {
+
+    firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
-          database.ref("users").child(user.uid).child(jobid).update(newJob);
-          
-          // ...
+            // User is signed in.
+            database.ref("users").child(user.uid).child(jobid).update(newJob);
+
+            // ...
         } else {
-          // User is signed out.
-          // ...
+            // User is signed out.
+            // ...
         }
-      });
+    });
 
 
     // alert("Add to database successfull");
@@ -171,17 +179,14 @@ $(document).on("click", "#save-jobs", function (event) {
 
 
 //enable the search button if keyword-input and location-input have been filled
-$("form").on('submit', function(e) {
+$("form").on('submit', function (e) {
     e.preventDefault();
-    
+
 });
 
 //Call for the saved jobs by checking the users UID directory
-$("#callList").click(function() {
-//console.log("this function works");
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.uid);
-
-});
+$("#callList").click(function () {
+    //console.log("this function works");
+   
 });
 
