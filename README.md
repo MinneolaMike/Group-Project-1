@@ -17,6 +17,7 @@
 * Career One Stop API
 * Google Places API
 * Visual Studio Code
+* Font Awesome
 
 ## Collaborators
 * https://github.com/mirtacarter
