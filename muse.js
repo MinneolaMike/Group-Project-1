@@ -1,46 +1,25 @@
-// Global variables
-// Empty arrays to collect location of search and company names from results
 var searchArea = [];
 var companies = [];
+var companyID = [];
 
-// Map variables
-var map;
-var service;
-var infowindow;
 
-// Map boolean for reset function, set to false
-var isMapLoaded = false;
 
-//---------------------------------------------------------------------------------------------------------------------
-
-// Reset function
-function resetMap() {
-  // Clear out array data
-  searchArea = [];
-  companies = [];
-  // Clear out content divs
-  $("#map").empty();
-  $("#resultsTable").empty();
-}
-
-//---------------------------------------------------------------------------------------------------------------------
-
-// Main app logic
+// Submit search event
 $("#submit-search").on("click", function (event) {
   event.preventDefault();
 
-  // Check if map needs to be reset
-  resetMap();
+  // Empty search results this will prevent duplication of searches
+  $("#resultsTable").empty();
 
-  // Capture values entered
+
+
+  // Capture values
   var locationInput = $("#location-input").val().trim();
   var keywordInput = $("#keyword-input").val().trim();
 
-  // Empty input fields
-  $("#location-input").val("");
-  $("#keyword-input").val("");
 
-  // Set up URL for API request, include authorization token 
+
+  // Set up URL, add authorization token 
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -53,52 +32,62 @@ $("#submit-search").on("click", function (event) {
     }
   }
 
-  // Ajax request
+  // Run ajax request
   $.ajax(settings).done(function (response) {
 
-    // Loop over response
+    console.log(response);
+    // console.log("-----------s-------------------------");
+
     var resultsNum = response.Jobs.length;
     for (var i = 0; i < resultsNum; i++) {
       var jobListing = response.Jobs[i];
 
-      // Convert job posting date/time result from returned format into days or months
+      // console.log(jobListing.JobTitle);
+      // console.log(jobListing.Company);
+      // console.log(jobListing.Location);
+      // console.log(jobListing.URL);
+      // console.log("------------------------------------");
+
       var dateConvert = jobListing.AccquisitionDate.split(" ");
       var calendarDate = dateConvert[0];
       var daysAgo = moment(calendarDate).fromNow();
 
-      // Relevant job posting results stored as variables
+
       var title = jobListing.JobTitle;
       var company = jobListing.Company;
       var location = jobListing.Location;
       var postdate = jobListing.AccquisitionDate;
+      var jobid = jobListing.JvId;
       var url = jobListing.URL;
 
-      // Variable for location of jobListing to set map location context
+      // variable for location of jobListing to set places ID search area
       address = jobListing.Location;
-      // Push to array         
+      // push to array         
       searchArea.push(address);
+      console.log(searchArea);
 
-      // Variable for company names
+      // variable for company names
       placeName = jobListing.Company;
-      // Push to array
+      // push to array
       companies.push(placeName);
+      console.log(companies);
 
-      // Logic to determine if user is logged in
+
       if (email_id) {
-        // Load search results to html with the save button if user is logged in
+        // load search results to html with the save button if user not logged in
         var newRow = $("#resultsTable")
-            .append($('<tr>')
+          .append($('<tr>')
             .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
             .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
             .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
             .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
             .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
-            .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
+            .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' data-jobid='" + jobid + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
           );
       } else {
-        // Load search results to html without the save button if user not logged in
+        // load search results to html without the save button if user not logged in
         var newRow = $("#resultsTable")
-            .append($('<tr>')
+          .append($('<tr>')
             .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
             .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
             .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
@@ -106,53 +95,53 @@ $("#submit-search").on("click", function (event) {
             .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
           );
       }
+
+      // Display search results
+      $(".content-wrapper").show();
+
+      initMap();
+
     }
 
-    // Display content area 
-    $(".content-wrapper").show();
-
-    // Call map function, generate map with result markers
-    initMap();
-
-    // Set isMapLoaded to true
-    isMapLoaded = true;
 
   });
 });
 
-//---------------------------------------------------------------------------------------------------------------------
 
-// Initialize map function
+var map;
+var service;
+var infowindow;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10.5
+    zoom: 10
   });
 
-  // Use Google's geocoder to center map to the area searched
   var geocoder = new google.maps.Geocoder;
+
   geocoder.geocode({ 'address': searchArea[0] }, function (results, status) {
     if (status === 'OK') {
       map.setCenter(results[0].geometry.location);
     } else {
       window.alert('Geocode was not successful for the following reason: ' +
         status);
-    };
+    }
   });
 
-  // Query the Places library for the company name within the search area
+
   for (var i = 0; i < companies.length; i++) {
     var request = {
-      query: companies[i] + " in " + searchArea[i],
+      query: companies[i] + " " + searchArea[i],
       fields: ['formatted_address', 'name'],
-    }
-    console.log(request);
+    };
+
+
     service = new google.maps.places.PlacesService(map);
     infowindow = new google.maps.InfoWindow();
     service.textSearch(request, callback);
   }
 }
 
-// Return the query results
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
@@ -163,15 +152,13 @@ function callback(results, status) {
   }
 }
 
-// Create map markers for each result returned
 function createMarker(place) {
+
   var marker = new google.maps.Marker({
     position: place.geometry.location,
-    animation: google.maps.Animation.DROP,
     map: map
   });
 
-  // Generate an info window when an individual marker is clicked
   google.maps.event.addListener(marker, 'click', function () {
     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
       '<br>' +
@@ -179,12 +166,3 @@ function createMarker(place) {
     infowindow.open(map, this);
   });
 }
-
-function toggleBounce() {
-  if (marker.getAnimation() !== null) {
-    marker.setAnimation(null);
-  } else {
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-  }
-}
-
