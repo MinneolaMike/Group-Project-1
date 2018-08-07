@@ -9,6 +9,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
 var database = firebase.database();
 
 var email_id = "";
@@ -146,4 +147,13 @@ $(document).on("click", "#save-jobs", function (event) {
 $("form").on('submit', function(e) {
     e.preventDefault();
     
+});
+
+//Call for the saved jobs by checking the users UID directory
+$("#callList").click(function() {
+//console.log("this function works");
+database.ref().on("child_added", function(childSnapshot) {
+    console.log(childSnapshot.uid);
+
+});
 });
