@@ -26,8 +26,8 @@ $("#submit-search").on("click", function (event) {
   // Run ajax request
   $.ajax(settings).done(function (response) {
 
-    // console.log(response);
-    // console.log("------------------------------------");
+    console.log(response);
+    // console.log("-----------s-------------------------");
 
     var resultsNum = response.Jobs.length;
     for (var i = 0; i < resultsNum; i++) {
@@ -48,6 +48,7 @@ $("#submit-search").on("click", function (event) {
       var company = jobListing.Company;
       var location = jobListing.Location;
       var postdate = jobListing.AccquisitionDate;
+      var jobid = jobListing.JvId;
       var url = jobListing.URL;
     
 
@@ -61,7 +62,7 @@ $("#submit-search").on("click", function (event) {
           .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
           .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
           .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
-          .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
+          .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' data-jobid='" + jobid + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
         ); 
       } else {
          // load search results to html without the save button if user not logged in
