@@ -34,3 +34,7 @@ input {
   #user_para {
       color: aliceblue;
   }
+
+  .btn:hover {
+      background-color: gray
+  }
