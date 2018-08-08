@@ -1,3 +1,40 @@
+//function to make both search fields required
+function validate() {
+
+  //Checking to make sure that the where field is filled out
+  if (document.myForm.where.value == "") {
+    //if not filled out launch whereMessage function
+    whereMessage();
+    document.myForm.where.focus();
+    return false;
+  }
+  //Checking to make sure the type of job field is filled out
+  if (document.myForm.type.value == "") {
+    //if not filled out launch typeMessage function
+    typeMessage();
+    document.myForm.type.focus();
+    return false;
+  }
+  return (true);
+}
+
+//Hides the 2 alerts for the input fields right away
+$('#where').hide();
+$('#type').hide();
+//function to show the required message for the where input
+function whereMessage() {
+  $('#where').slideDown(1000);
+  $('#where').delay(1000);
+  $('#where').slideUp(1000);
+}
+//function to show the required message for the type input
+function typeMessage() {
+  $('#type').slideDown(1000);
+  $('#type').delay(1000);
+  $('#type').slideUp(1000);
+}
+
+
 // Global variables
 // Empty arrays to collect location of search and company names from results
 var searchArea = [];
@@ -31,6 +68,7 @@ $("#submit-search").on("click", function (event) {
 
   // Check if map needs to be reset
   resetMap();
+  validate();
 
   // Capture values entered
   var locationInput = $("#location-input").val().trim();
@@ -88,7 +126,7 @@ $("#submit-search").on("click", function (event) {
       if (email_id) {
         // Load search results to html with the save button if user is logged in
         var newRow = $("#resultsTable")
-            .append($('<tr>')
+          .append($('<tr>')
             .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
             .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
             .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
@@ -99,7 +137,7 @@ $("#submit-search").on("click", function (event) {
       } else {
         // Load search results to html without the save button if user not logged in
         var newRow = $("#resultsTable")
-            .append($('<tr>')
+          .append($('<tr>')
             .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
             .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
             .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
