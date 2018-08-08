@@ -14,8 +14,7 @@ var database = firebase.database();
 
 //store user login information
 var user = firebase.auth().currentUser;
-//store user login information
-console.log(user);
+
 
 // initalize global varables
 var email_id = "";
@@ -23,13 +22,23 @@ var user_uid = "";
 
 // Hide success message
 $('#success').hide();
+ // Hide delete message
+ $('#delete-success').hide();
+
 
 
 //This function displays success message after data is added to database
 function successMessage() {
     $('#success').slideDown(1000);
-    $('#success').delay(3000);
+    $('#success').delay(1000);
     $('#success').slideUp(1000);
+}
+
+//This function displays success message after data is removed from database
+function removeMessage() {
+    $('#delete-success').slideDown(1000);
+    $('#delete-success').delay(1000);
+    $('#delete-success').slideUp(1000);
 }
 
 
@@ -174,34 +183,63 @@ $(document).on("click", "#save-jobs", function (event) {
 });
 
 
-//enable the search button if keyword-input and location-input have been filled
+// Enable the search button if keyword-input and location-input have been filled
 $("form").on('submit', function (e) {
     e.preventDefault();
+});
+
+
+// Add event listner for when user clicks the delete button
+$(document).on("click", "#delete-jobs", function (event) {
+    event.preventDefault();
+
+    // key database key
+    database.ref($(this).attr("data-dbkey")).remove();
+
+    // alert("Delete job from database successfull");
+    removeMessage();
+
+    // load saved jobs from database into modal for display
+    loadSavedjobs();
 
 });
 
-//Call for the saved jobs by checking the users UID directory
+function loadSavedjobs() {
+
+     // Empty search results this will prevent duplication of searches
+     $("#savedJobs").empty();
+     database.ref('/users/' + user_uid).once('value').then(function (snapshot) {
+ 
+         // console.log(snapshot.val());
+         snapshot.forEach(childSnapshot => {
+ 
+             // console.log(childSnapshot.val());
+             // console.log(childSnapshot.key);
+             var childKey = "/users/" + user_uid + "/" + childSnapshot.key;
+            //  console.log(childKey);
+ 
+             // load search results to html with the save button if user not logged in
+             var newRow = $("#savedJobs")
+                 .append($('<tr>')
+                     .append($('<td>').append(childSnapshot.val().jobTitle))
+                     .append($('<td>').append(childSnapshot.val().jobCompany))
+                     .append($('<td>').append(childSnapshot.val().jobLocation))
+                     .append($('<td>').append(childSnapshot.val().jobPostdate))
+                     .append($('<td>').html("<a href='" + childSnapshot.val().jobUrl + "' target='_blank'> Apply</a>").attr("data-url", childSnapshot.val().jobUrl))
+                     .append($("<td>").html("<button data-dbkey='" + childKey + "' type='button' class='btn-sm btn-primary' id='delete-jobs'>Delete</button>"))
+                 );
+         });
+ 
+     });
+
+}
+
+
+// Call for the saved jobs by checking the users UID directory
 $("#callList").click(function () {
-    
-    // Empty search results this will prevent duplication of searches
-    $("#savedJobs").empty();
-    database.ref('/users/' + user_uid).once('value').then(function (snapshot) {
 
-        console.log(snapshot.val());
-        snapshot.forEach(childSnapshot => {
-       
-            // load search results to html with the save button if user not logged in
-            var newRow = $("#savedJobs")
-                    .append($('<tr>')
-                    .append($('<td>').append(childSnapshot.val().jobTitle))
-                    .append($('<td>').append(childSnapshot.val().jobCompany))
-                    .append($('<td>').append(childSnapshot.val().jobLocation))
-                    .append($('<td>').append(childSnapshot.val().jobPostdate))
-                    .append($('<td>').html("<a href='" + childSnapshot.val().jobUrl + "' target='_blank'> Apply</a>").attr("data-url", childSnapshot.val().jobUrl))
-                );
-        });
-
-    });
+   // load saved jobs into modal for display
+   loadSavedjobs();
 
 });
 

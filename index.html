@@ -20,7 +20,7 @@
 
 </head>
 
-<body style ="background-color: #F1F6FA">
+<body style="background-color: #F1F6FA">
     <!--Start of the main container-->
     <div class="container">
         <!--Jumbotron-->
@@ -144,8 +144,13 @@
 
         <!-- Modal -->
         <div class="modal fade" id="SavedJobsList" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
+                    <!-- display Success message -->
+                    <div class="alert alert-success" id="delete-success" role="alert">
+                        Job Deleted Successfully!
+                    </div>
                     <!-- modal Header-->
                     <div class="modal-header" style="font-family: 'Ubuntu', sans-serif; background-color: lightgray;
                     ">
@@ -154,6 +159,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
                     <!--Modal Body-->
                     <div class="modal-body">
                         <div class="table-responsive">
