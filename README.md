@@ -21,12 +21,3 @@
 * Font Awesome
 * Google Fonts
 * Adobe Photoshop
-
-## Collaborators
-* https://github.com/mirtacarter
-* https://github.com/MinneolaMike
-* https://github.com/twolliston
-* https://github.com/BenjaminPisaris
-
-## Try Our Job Finder
-https://minneolamike.github.io/Group-Project-1/
